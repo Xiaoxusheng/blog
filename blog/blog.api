@@ -1,0 +1,55 @@
+syntax = "v1"
+
+import "resp.api"
+
+//登录
+type UserLoginReq{Username string `form:"username"`Password string `form:"password"` Role int `form:"role"`}
+type UserLoginResp{ Respone   Data map[string]string `json:"data,default="" "`}
+//注册
+type UserRigisterReq{Username string `form:"username"`Password string `form:"password"`}
+type UserRigisterResp{Respone}
+//修改权限
+type UpdateRoleReq{Id string `json:"id"` Role int `json:"role"`}
+type UpdateRoleResp{ Respone}
+
+//修改密码
+type UpdatePasswordReq{ Password string `json:"password"`}
+type UpdatePasswordResp{ Respone}
+
+@server(
+	prefix: /v1
+	group: user
+	timeout: 3s
+)
+
+service blog-api {
+	//登录
+	@handler UserLogin
+	post /user/login (UserLoginReq) returns (UserLoginResp)
+	//注册
+	@handler UserRigister
+	post /user/rigister (UserRigisterReq) returns (UserRigisterResp)
+}
+
+@server(
+	signature: true
+	prefix: /v1
+	group: user
+	timeout: 3s
+	middleware: ParseToken
+)
+
+//管理员
+service blog-api {
+	// 修改用户权限
+	@handler UpdateRole
+	put /user/updateRole (UpdateRoleReq) returns (UpdateRoleResp)
+	//
+}
+
+service blog-api {
+	// 修改密码
+	@handler UpdatePassword
+	get /user/updatePassword (UpdatePasswordReq) returns (UpdatePasswordResp)
+	//
+}
