@@ -24,7 +24,38 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/user/rigister",
 				Handler: user.UserRigisterHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/adminRigister",
+				Handler: user.AdminRigisterHandler(serverCtx),
+			},
 		},
+		rest.WithPrefix("/v1"),
+		rest.WithTimeout(3000*time.Millisecond),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.ParseToken, serverCtx.AdminAuth},
+			[]rest.Route{
+				{
+					Method:  http.MethodPut,
+					Path:    "/user/updateRole",
+					Handler: user.UpdateRoleHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/user/getUserList",
+					Handler: user.GetUserListHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/user/updateIp",
+					Handler: user.UpdateIpHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithSignature(serverCtx.Config.Signature),
 		rest.WithPrefix("/v1"),
 		rest.WithTimeout(3000*time.Millisecond),
 	)
@@ -35,23 +66,23 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Route{
 				{
 					Method:  http.MethodPut,
-					Path:    "/user/updateRole",
-					Handler: user.UpdateRoleHandler(serverCtx),
+					Path:    "/user/updatePassword",
+					Handler: user.UpdatePasswordHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/user/getUserInfoById",
+					Handler: user.GetUserInfoByIdHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/user/updateUserInfo",
+					Handler: user.UpdateUserInfoHandler(serverCtx),
 				},
 			}...,
 		),
 		rest.WithSignature(serverCtx.Config.Signature),
 		rest.WithPrefix("/v1"),
 		rest.WithTimeout(3000*time.Millisecond),
-	)
-
-	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodGet,
-				Path:    "/user/updatePassword",
-				Handler: UpdatePasswordHandler(serverCtx),
-			},
-		},
 	)
 }

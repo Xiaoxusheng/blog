@@ -3,18 +3,39 @@ syntax = "v1"
 import "resp.api"
 
 //登录
-type UserLoginReq{Username string `form:"username"`Password string `form:"password"` Role int `form:"role"`}
+type UserLoginReq{Username string `form:"username"`Password string `form:"password"`}
 type UserLoginResp{ Respone   Data map[string]string `json:"data,default="" "`}
 //注册
-type UserRigisterReq{Username string `form:"username"`Password string `form:"password"`}
+type UserRigisterReq{Username string `form:"username"`Password string `form:"password"`  NickName string `from:"nickName,optional"` QQ int `from:"qq,optional"`}
 type UserRigisterResp{Respone}
+
 //修改权限
 type UpdateRoleReq{Id string `json:"id"` Role int `json:"role"`}
 type UpdateRoleResp{ Respone}
+//获取用户列表
+type GetUserListReq{ offset int `json:"offset"`  Limit int `json:"limit"`}
+type GetUserListResp{Respone Data map [string][]*Userlist `json:"data"`}
+
+//管理员注册
+type AdminRigisterReq{Username string `form:"username"`Password string `form:"password"` NickName string `form:"nickName,optional"` QQ int `form:"qq,optional"`}
+type AdminRigisterResp{Respone}
 
 //修改密码
 type UpdatePasswordReq{ Password string `json:"password"`}
 type UpdatePasswordResp{ Respone}
+
+//管理员修改用户ip
+type UpdateIpReq{ Id string `json:"id"` Ip string `json:"ip"`}
+type UpdateIpResp{ Respone}
+
+//用户获取用户信息
+type GetUserInfoByIdReq {
+}
+type GetUserInfoByIdResp{ Respone  Data map[string]Userlist `json:"data"`}
+
+//用户修改个人信息
+type UpdateUserInfoReq{Avatar string `json:"avatar,optional"` nickName string `json:"nickName,optional"` QQ int `json:"qq,optional"`}
+type UpdateUserInfoResp{Respone}
 
 @server(
 	prefix: /v1
@@ -29,6 +50,31 @@ service blog-api {
 	//注册
 	@handler UserRigister
 	post /user/rigister (UserRigisterReq) returns (UserRigisterResp)
+	//管理员注册
+	@handler AdminRigister
+	post /user/adminRigister (AdminRigisterReq) returns (AdminRigisterResp)
+}
+
+@server(
+	signature: true
+	prefix: /v1
+	group: user
+	timeout: 3s
+	middleware: ParseToken,AdminAuth
+)
+
+//管理员
+service blog-api {
+	// 修改用户权限
+	@handler UpdateRole
+	put /user/updateRole (UpdateRoleReq) returns (UpdateRoleResp)
+	//获取用户列表
+	@handler GetUserList
+	get /user/getUserList (GetUserListReq) returns (GetUserListResp)
+	//更新用户ip
+	@handler UpdateIp
+	put /user/updateIp (UpdateIpReq) returns (UpdateIpResp)
+	//
 }
 
 @server(
@@ -39,17 +85,14 @@ service blog-api {
 	middleware: ParseToken
 )
 
-//管理员
-service blog-api {
-	// 修改用户权限
-	@handler UpdateRole
-	put /user/updateRole (UpdateRoleReq) returns (UpdateRoleResp)
-	//
-}
-
 service blog-api {
 	// 修改密码
 	@handler UpdatePassword
-	get /user/updatePassword (UpdatePasswordReq) returns (UpdatePasswordResp)
-	//
+	put /user/updatePassword (UpdatePasswordReq) returns (UpdatePasswordResp)
+	//根据identity获取用户信息
+	@handler GetUserInfoById
+	get /user/getUserInfoById (GetUserInfoByIdReq) returns (GetUserInfoByIdResp)
+	//修改个人信息
+	@handler UpdateUserInfo
+	put /user/updateUserInfo (UpdateUserInfoReq) returns (UpdateUserInfoResp)
 }

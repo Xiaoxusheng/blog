@@ -4,7 +4,6 @@ package types
 type UserLoginReq struct {
 	Username string `form:"username"`
 	Password string `form:"password"`
-	Role     int    `form:"role"`
 }
 
 type UserLoginResp struct {
@@ -15,6 +14,8 @@ type UserLoginResp struct {
 type UserRigisterReq struct {
 	Username string `form:"username"`
 	Password string `form:"password"`
+	NickName string `from:"nickName,optional"`
+	QQ       int    `from:"qq,optional"`
 }
 
 type UserRigisterResp struct {
@@ -30,6 +31,27 @@ type UpdateRoleResp struct {
 	Respone
 }
 
+type GetUserListReq struct {
+	Offset int `json:"offset"`
+	Limit  int `json:"limit"`
+}
+
+type GetUserListResp struct {
+	Respone
+	Data map[string][]*Userlist `json:"data"`
+}
+
+type AdminRigisterReq struct {
+	Username string `form:"username"`
+	Password string `form:"password"`
+	NickName string `form:"nickName,optional"`
+	QQ       int    `form:"qq,optional"`
+}
+
+type AdminRigisterResp struct {
+	Respone
+}
+
 type UpdatePasswordReq struct {
 	Password string `json:"password"`
 }
@@ -38,7 +60,44 @@ type UpdatePasswordResp struct {
 	Respone
 }
 
+type UpdateIpReq struct {
+	Id string `json:"id"`
+	Ip string `json:"ip"`
+}
+
+type UpdateIpResp struct {
+	Respone
+}
+
+type GetUserInfoByIdReq struct {
+}
+
+type GetUserInfoByIdResp struct {
+	Respone
+	Data map[string]Userlist `json:"data"`
+}
+
+type UpdateUserInfoReq struct {
+	Avatar   string `json:"avatar,optional"`
+	NickName string `json:"nickName,optional"`
+	QQ       int    `json:"qq,optional"`
+}
+
+type UpdateUserInfoResp struct {
+	Respone
+}
+
 type Respone struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
+}
+
+type Userlist struct {
+	Identity  string `json:"identity"`
+	Username  string `json:"username"`
+	Role      int    `json:"role"`
+	Nick_name string `json:"nick_Name"`
+	Avatar    string `json:"avatar"`
+	Qq        int    `json:"qq"`
+	Ip        string `json:"ip"`
 }

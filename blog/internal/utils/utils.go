@@ -40,8 +40,15 @@ func GetMd5(password string) string {
 	return fmt.Sprintf("%x", md5.Sum([]byte(password)))
 }
 
-// 生成uuid
 // uuid生成
 func GetUuid() string {
 	return uuid.NewV4().String()
+}
+
+// 验证
+func Verify(s string) bool {
+	if len(s) < 1 || len(s) > 6 {
+		return false
+	}
+	return true
 }

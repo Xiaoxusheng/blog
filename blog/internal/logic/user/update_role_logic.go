@@ -1,11 +1,12 @@
 package user
 
 import (
-	"blog/internal/config"
-	"blog/internal/models"
 	"context"
 	"log"
+	"net/http"
 
+	"blog/internal/config"
+	"blog/internal/models"
 	"blog/internal/svc"
 	"blog/internal/types"
 
@@ -41,10 +42,13 @@ func (l *UpdateRoleLogic) UpdateRole(req *types.UpdateRoleReq, identity string) 
 	if user.Role != 9999 {
 		resp.Msg = "您没有权限修改"
 		resp.Code = config.USER
+		return
 	}
 	err = models.UpdateRole(identity, req.Role)
 	if err != nil {
 		return nil, err
 	}
+	resp.Msg = "更新成功"
+	resp.Code = http.StatusOK
 	return resp, nil
 }

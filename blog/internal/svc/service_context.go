@@ -9,11 +9,13 @@ import (
 type ServiceContext struct {
 	Config     config.Config
 	ParseToken rest.Middleware
+	AdminAuth  rest.Middleware
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	return &ServiceContext{
 		Config:     c,
 		ParseToken: middleware.NewParseTokenMiddleware().Handle,
+		AdminAuth:  middleware.NewAdminAuthMiddleware().Handle,
 	}
 }

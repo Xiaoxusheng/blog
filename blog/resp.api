@@ -4,3 +4,13 @@ type Respone {
     Code int    `json:"code"`
     Msg  string `json:"msg"`
 }
+
+type Userlist  {
+    Identity  string    `json:"identity"`
+    Username  string    `json:"username"`
+    Role      int       `json:"role"`
+    Nick_name string    `json:"nick_Name"`
+    Avatar    string    `json:"avatar"`
+    Qq        int       `json:"qq"`
+    Ip        string    `json:"ip"`
+}

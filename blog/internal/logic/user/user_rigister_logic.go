@@ -1,14 +1,16 @@
 package user
 
 import (
+	"context"
+	"net/http"
+
 	"blog/internal/config"
 	"blog/internal/models"
 	"blog/internal/svc"
 	"blog/internal/types"
 	"blog/internal/utils"
-	"context"
+
 	"github.com/zeromicro/go-zero/core/logx"
-	"net/http"
 )
 
 type UserRigisterLogic struct {
@@ -28,13 +30,20 @@ func NewUserRigisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *User
 func (l *UserRigisterLogic) UserRigister(req *types.UserRigisterReq, ip string) (resp *types.UserRigisterResp, err error) {
 	// todo: add your logic here and delete this line
 	resp = new(types.UserRigisterResp)
-	ok := models.GetByUsername(req.Username)
+	//判断用户是否存在
+	_, ok := models.GetByUsername(req.Username)
 	if ok {
 		resp.Msg = "用户已存在！"
 		resp.Code = config.USER
 		return
 	}
-	err = models.InsertUser(utils.GetUuid(), req.Username, utils.GetMd5(req.Password), "", ip, 0)
+	m := utils.Verify(req.Password)
+	if !m {
+		resp.Msg = "用户密码不符合要求！"
+		resp.Code = config.USER
+		return
+	}
+	err = models.InsertUser(utils.GetUuid(), req.Username, utils.GetMd5(req.Password), req.NickName, ip, req.QQ)
 	if err != nil {
 		resp.Msg = err.Error()
 		resp.Code = config.USER
