@@ -74,7 +74,7 @@ func GeTalkById(id string) error {
 }
 
 func GetTalkList(list []*types.TalkList, limit, offset int) ([]*types.TalkList, error) {
-	err := Engine.Where("blog_talk").Limit(limit, offset).Find(list)
+	err := Engine.Where("blog_talk").Limit(limit, offset).OrderBy("created_at", "desc").Find(list)
 	if err != nil {
 		return nil, errors.New("查询说说列表失败!")
 	}
