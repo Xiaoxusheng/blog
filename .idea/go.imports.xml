@@ -3,6 +3,8 @@
   <component name="GoImports">
     <option name="excludedPackages">
       <array>
+        <option value="blog/internal/logic/user" />
+        <option value="builtin" />
         <option value="builtin" />
         <option value="builtin" />
       </array>

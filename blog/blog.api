@@ -37,6 +37,26 @@ type GetUserInfoByIdResp{ Respone  Data map[string]Userlist `json:"data"`}
 type UpdateUserInfoReq{Avatar string `json:"avatar,optional"` nickName string `json:"nickName,optional"` QQ int `json:"qq,optional"`}
 type UpdateUserInfoResp{Respone}
 
+//发表说说
+type PublishTalkReq{ UserId string `json:"userId"` Content string `json:"content"` Imglist string `json:"imglist"`}
+type PublishTalkResp{Respone Data map [string]string `json:"data"`}
+
+//后台获取说说列表
+type GetTalkListReq{offset int `json:"offset"`  Limit int `json:"limit"`}
+type GetTalkListResp{Respone  Data  map[string][]*TalkList `json:"data"`}
+
+//修改说说
+type UpdateTalkReq{  Id string `json:"identity"` Content string `json:"content,optional"` Imglist string `json:"imglist,optional"` status int `json:"status,optional"` Istop int `json:"istop,optional"`}
+type UpdateTalkResp{Respone}
+
+//删除说说
+type DeleteTalkReq{ Id string `json:"identity"`}
+type DeleteTalkResp{Respone}
+
+//恢复说说
+type RevertTalkReq{Id string `json:"identity"`}
+type RevertTalkResp{Respone}
+
 @server(
 	prefix: /v1
 	group: user
@@ -74,7 +94,21 @@ service blog-api {
 	//更新用户ip
 	@handler UpdateIp
 	put /user/updateIp (UpdateIpReq) returns (UpdateIpResp)
-	//
+	//发表说说
+	@handler PublishTalk
+	get /talk/publishTalk (PublishTalkReq) returns (PublishTalkResp)
+	//说说列表
+	@handler GetTalkList
+	post /talk/GetTalkList (GetTalkListReq) returns (GetTalkListResp)
+	//修改说说
+	@handler UpdateTalk
+	put /talk/updateTalk (UpdateTalkReq) returns (UpdateTalkResp)
+	//删除说说
+	@handler DeleteTalk
+	get /talk/deletetalkby (DeleteTalkReq) returns (DeleteTalkResp)
+	//恢复说说
+	@handler RevertTalk
+	get /talk/revertTalk (RevertTalkReq) returns (RevertTalkResp)
 }
 
 @server(

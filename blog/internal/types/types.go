@@ -87,6 +87,55 @@ type UpdateUserInfoResp struct {
 	Respone
 }
 
+type PublishTalkReq struct {
+	UserId  string `json:"userId"`
+	Content string `json:"content"`
+	Imglist string `json:"imglist"`
+}
+
+type PublishTalkResp struct {
+	Respone
+	Data map[string]string `json:"data"`
+}
+
+type GetTalkListReq struct {
+	Offset int `json:"offset"`
+	Limit  int `json:"limit"`
+}
+
+type GetTalkListResp struct {
+	Respone
+	Data map[string][]*TalkList `json:"data"`
+}
+
+type UpdateTalkReq struct {
+	Id      string `json:"identity"`
+	Content string `json:"content,optional"`
+	Imglist string `json:"imglist,optional"`
+	Status  int    `json:"status,optional"`
+	Istop   int    `json:"istop,optional"`
+}
+
+type UpdateTalkResp struct {
+	Respone
+}
+
+type DeleteTalkReq struct {
+	Id string `json:"identity"`
+}
+
+type DeleteTalkResp struct {
+	Respone
+}
+
+type RevertTalkReq struct {
+	Id string `json:"identity"`
+}
+
+type RevertTalkResp struct {
+	Respone
+}
+
 type Respone struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
@@ -100,4 +149,14 @@ type Userlist struct {
 	Avatar    string `json:"avatar"`
 	Qq        int    `json:"qq"`
 	Ip        string `json:"ip"`
+}
+
+type TalkList struct {
+	Identity  string `json:"identity"`
+	UserId    string `json:"userId,omitempty"`
+	Content   string `json:"content,omitempty"`
+	Status    int    `json:"status,omitempty"`
+	IsTop     int    `json:"isTop,omitempty"`
+	LikeTimes int    `json:"likeTimes" json:"likeTimes,omitempty"`
+	Url       string `json:"url,omitempty"`
 }

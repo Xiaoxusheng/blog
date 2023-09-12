@@ -53,6 +53,31 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/user/updateIp",
 					Handler: user.UpdateIpHandler(serverCtx),
 				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/talk/publishTalk",
+					Handler: user.PublishTalkHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/talk/GetTalkList",
+					Handler: user.GetTalkListHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/talk/updateTalk",
+					Handler: user.UpdateTalkHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/talk/deletetalkby",
+					Handler: user.DeleteTalkHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/talk/revertTalk",
+					Handler: user.RevertTalkHandler(serverCtx),
+				},
 			}...,
 		),
 		rest.WithSignature(serverCtx.Config.Signature),

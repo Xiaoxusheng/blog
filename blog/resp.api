@@ -14,3 +14,13 @@ type Userlist  {
     Qq        int       `json:"qq"`
     Ip        string    `json:"ip"`
 }
+
+type TalkList{
+    Identity  string    `json:"identity"`
+    UserId    string    `json:"userId,omitempty"`
+    Content   string    `json:"content,omitempty"`
+    Status    int       `json:"status,omitempty"`
+    IsTop     int       `json:"isTop,omitempty"`
+    LikeTimes int       `json:"likeTimes" json:"likeTimes,omitempty"`
+    Url       string    `json:"url,omitempty"`
+}
