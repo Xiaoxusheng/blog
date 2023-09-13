@@ -64,7 +64,7 @@ func RecoverTalk(id string) error {
 	return nil
 }
 
-func GeTalkById(id string) error {
+func GetTalkById(id string) error {
 	talk := new(Talk)
 	ok, err := Engine.Where("identity=?", id).Get(talk)
 	if err != nil || !ok {
@@ -74,9 +74,37 @@ func GeTalkById(id string) error {
 }
 
 func GetTalkList(list []*types.TalkList, limit, offset int) ([]*types.TalkList, error) {
-	err := Engine.Where("blog_talk").Limit(limit, offset).OrderBy("created_at", "desc").Find(list)
+	err := Engine.Table("blog_talk").Limit(limit, (offset-1)*offset).OrderBy("created_at", "desc").Find(list)
 	if err != nil {
 		return nil, errors.New("查询说说列表失败!")
 	}
 	return list, nil
+}
+
+func UpdateTalkLike(id string) error {
+	talk := new(Talk)
+	talk.LikeTimes += 1
+	_, err := Engine.Where("identity=?", id).Update(talk)
+	if err != nil {
+		return errors.New("点赞失败！")
+	}
+	return nil
+}
+func CancelTalkLike(id string) error {
+	talk := new(Talk)
+	talk.LikeTimes -= 1
+	_, err := Engine.Where("identity=?", id).Update(talk)
+	if err != nil {
+		return errors.New("取消点赞失败！")
+	}
+	return nil
+}
+
+func GetTalkDetail(id string, t *types.TalkList) error {
+	err := Engine.Where("identity=?", id).Find(&t)
+	if err != nil {
+		return errors.New("获取详情失败！")
+	}
+	return nil
+
 }

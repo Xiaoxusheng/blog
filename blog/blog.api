@@ -43,7 +43,7 @@ type PublishTalkResp{Respone Data map [string]string `json:"data"`}
 
 //后台获取说说列表
 type GetTalkListReq{offset int `json:"offset"`  Limit int `json:"limit"`}
-type GetTalkListResp{Respone  Data  map[string][]*TalkList `json:"data"`}
+type GetTalkListResp{Respone  Data map[string][]*TalkList `json:"data"`}
 
 //修改说说
 type UpdateTalkReq{  Id string `json:"identity"` Content string `json:"content,optional"` Imglist string `json:"imglist,optional"` status int `json:"status,optional"` Istop int `json:"istop,optional"`}
@@ -56,6 +56,36 @@ type DeleteTalkResp{Respone}
 //恢复说说
 type RevertTalkReq{Id string `json:"identity"`}
 type RevertTalkResp{Respone}
+
+//说说点赞
+type TalkLikeReq{Id string `json:"id"`}
+type TalkLikeResp{Respone}
+
+//取消点赞
+type CancelTalkLikeReq{Id string `json:"id"`}
+type CancelTalkLikeResp{Respone}
+
+//前端获取说说列表篇
+type GetBlogtTalkListReq{offset int `json:"offset"`  Limit int `json:"limit"`}
+type GetBlogtTalkListResp{Respone  Data map[string][]*TalkList `json:"data"`}
+
+//说说详情
+type GetTalkDetailReq{Id string `json:"id"`}
+type GetTalkDetailResp{ Respone Data map[string]*TalkList `json:"data"`}
+
+//tag
+//新增标签
+type AddTagReq{TagName string `json:"tagName"`}
+type AddTagResp{Respone}
+//修改标签
+type UpdateTagReq{Id string `json:"id"` TagName string `json:"tagName"`}
+type UpdateTagResp{Respone}
+//删除标签
+type DeleteTagReq{Id string `json:"id"`}
+type DeleteTagResp{Respone}
+//标签列表
+type GetTagListReq {offset int `json:"offset"`  Limit int `json:"limit"`}
+type GetTagListResp{Respone Data map [string] []*TagList `json:"data"`}
 
 @server(
 	prefix: /v1
@@ -99,13 +129,13 @@ service blog-api {
 	get /talk/publishTalk (PublishTalkReq) returns (PublishTalkResp)
 	//说说列表
 	@handler GetTalkList
-	post /talk/GetTalkList (GetTalkListReq) returns (GetTalkListResp)
+	post /talk/getTalkList (GetTalkListReq) returns (GetTalkListResp)
 	//修改说说
 	@handler UpdateTalk
 	put /talk/updateTalk (UpdateTalkReq) returns (UpdateTalkResp)
 	//删除说说
 	@handler DeleteTalk
-	get /talk/deletetalkby (DeleteTalkReq) returns (DeleteTalkResp)
+	get /talk/deleteTalk (DeleteTalkReq) returns (DeleteTalkResp)
 	//恢复说说
 	@handler RevertTalk
 	get /talk/revertTalk (RevertTalkReq) returns (RevertTalkResp)
@@ -129,4 +159,38 @@ service blog-api {
 	//修改个人信息
 	@handler UpdateUserInfo
 	put /user/updateUserInfo (UpdateUserInfoReq) returns (UpdateUserInfoResp)
+	//说说点赞
+	@handler TalkLike
+	get /user/talklike (TalkLikeReq) returns (TalkLikeResp)
+	//取消点赞
+	@handler CancelTalkLike
+	get /user/cancelTalklike (CancelTalkLikeReq) returns (CancelTalkLikeResp)
+	@handler GetBlogtTalkList
+	get /user/getblogTalkList (GetBlogtTalkListReq) returns (GetBlogtTalkListResp)
+	@handler GetTalkDetail
+	get /user/getTalkDetail (GetTalkDetailReq) returns (GetTalkDetailResp)
+}
+
+@server(
+	signature: true
+	prefix: /v1
+	group: tag
+	timeout: 3s
+	middleware: ParseToken,AdminAuth
+)
+
+service blog-api {
+	//增加标签
+	@handler AddTag
+	post /tag/addTag (AddTagReq) returns (AddTagResp)
+	//修改标签
+	@handler UpdateTag
+	get /tag/updateTag (UpdateTagReq) returns (UpdateTagResp)
+	//删除标签
+	@handler DeleteTag
+	get /tag/deleteTag (DeleteTagReq) returns (DeleteTagResp)
+
+	// 条件分页获取标签
+	@handler GetTagList
+	get /tag/getTagList (GetTagListReq) returns (GetTagListResp)
 }

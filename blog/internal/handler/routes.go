@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	tag "blog/internal/handler/tag"
 	user "blog/internal/handler/user"
 	"blog/internal/svc"
 
@@ -60,7 +61,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 				{
 					Method:  http.MethodPost,
-					Path:    "/talk/GetTalkList",
+					Path:    "/talk/getTalkList",
 					Handler: user.GetTalkListHandler(serverCtx),
 				},
 				{
@@ -70,7 +71,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 				{
 					Method:  http.MethodGet,
-					Path:    "/talk/deletetalkby",
+					Path:    "/talk/deleteTalk",
 					Handler: user.DeleteTalkHandler(serverCtx),
 				},
 				{
@@ -103,6 +104,57 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPut,
 					Path:    "/user/updateUserInfo",
 					Handler: user.UpdateUserInfoHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/user/talklike",
+					Handler: user.TalkLikeHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/user/cancelTalklike",
+					Handler: user.CancelTalkLikeHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/user/getblogTalkList",
+					Handler: user.GetBlogtTalkListHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/user/getTalkDetail",
+					Handler: user.GetTalkDetailHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithSignature(serverCtx.Config.Signature),
+		rest.WithPrefix("/v1"),
+		rest.WithTimeout(3000*time.Millisecond),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.ParseToken, serverCtx.AdminAuth},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/tag/addTag",
+					Handler: tag.AddTagHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/tag/updateTag",
+					Handler: tag.UpdateTagHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/tag/deleteTag",
+					Handler: tag.DeleteTagHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/tag/getTagList",
+					Handler: tag.GetTagListHandler(serverCtx),
 				},
 			}...,
 		),

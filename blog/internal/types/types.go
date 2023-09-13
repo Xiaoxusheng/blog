@@ -136,6 +136,76 @@ type RevertTalkResp struct {
 	Respone
 }
 
+type TalkLikeReq struct {
+	Id string `json:"id"`
+}
+
+type TalkLikeResp struct {
+	Respone
+}
+
+type CancelTalkLikeReq struct {
+	Id string `json:"id"`
+}
+
+type CancelTalkLikeResp struct {
+	Respone
+}
+
+type GetBlogtTalkListReq struct {
+	Offset int `json:"offset"`
+	Limit  int `json:"limit"`
+}
+
+type GetBlogtTalkListResp struct {
+	Respone
+	Data map[string][]*TalkList `json:"data"`
+}
+
+type GetTalkDetailReq struct {
+	Id string `json:"id"`
+}
+
+type GetTalkDetailResp struct {
+	Respone
+	Data map[string]*TalkList `json:"data"`
+}
+
+type AddTagReq struct {
+	TagName string `json:"tagName"`
+}
+
+type AddTagResp struct {
+	Respone
+}
+
+type UpdateTagReq struct {
+	Id      string `json:"id"`
+	TagName string `json:"tagName"`
+}
+
+type UpdateTagResp struct {
+	Respone
+}
+
+type DeleteTagReq struct {
+	Id string `json:"id"`
+}
+
+type DeleteTagResp struct {
+	Respone
+}
+
+type GetTagListReq struct {
+	Offset int `json:"offset"`
+	Limit  int `json:"limit"`
+}
+
+type GetTagListResp struct {
+	Respone
+	Data map[string][]*TagList `json:"data"`
+}
+
 type Respone struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
@@ -159,4 +229,10 @@ type TalkList struct {
 	IsTop     int    `json:"isTop,omitempty"`
 	LikeTimes int    `json:"likeTimes" json:"likeTimes,omitempty"`
 	Url       string `json:"url,omitempty"`
+}
+
+type TagList struct {
+	Identity string `json:"identity"`
+	TagName  string `json:"tag_Name"`
+	Status   int    `json:"status"`
 }

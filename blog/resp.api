@@ -24,3 +24,10 @@ type TalkList{
     LikeTimes int       `json:"likeTimes" json:"likeTimes,omitempty"`
     Url       string    `json:"url,omitempty"`
 }
+
+type TagList struct {
+    Identity  string    `json:"identity"`
+    TagName   string    `json:"tag_Name"`
+    Status    int       `json:"status"`
+
+}
