@@ -206,6 +206,22 @@ type GetTagListResp struct {
 	Data map[string][]*TagList `json:"data"`
 }
 
+type AddArticleReq struct {
+	Article Articlelist `json:"article"`
+}
+
+type AddArticleResp struct {
+	Respone
+}
+
+type UpdateArticleReq struct {
+	Article Articlelist `json:"article"`
+}
+
+type UpdateArticleResp struct {
+	Respone
+}
+
 type Respone struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
@@ -235,4 +251,21 @@ type TagList struct {
 	Identity string `json:"identity"`
 	TagName  string `json:"tag_Name"`
 	Status   int    `json:"status"`
+}
+
+type Articlelist struct {
+	Identity           string `json:"identity"`
+	ArticleTitle       string `json:"articleTitle"`
+	AuthorId           int    `json:"authorId"`
+	CategoryId         int    `json:"categoryId"`
+	ArticleContent     string `json:"articleContent"`
+	ArticleCover       string `json:"articleCover"`
+	IsTop              int    `json:"isTop"`
+	Status             int    `json:"status"`
+	Type               int    `json:"type"`
+	OriginUrl          string `json:"originUrl"`
+	ViewTimes          int    `json:"viewTimes"`
+	ArticleDescription string `json:"articleDescription"`
+	ThumbsUpTimes      int    `json:"thumbsUpTimes"`
+	ReadingDuration    int    `json:"readingDuration"`
 }

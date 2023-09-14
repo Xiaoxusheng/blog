@@ -25,9 +25,26 @@ type TalkList{
     Url       string    `json:"url,omitempty"`
 }
 
-type TagList struct {
+type TagList  {
     Identity  string    `json:"identity"`
     TagName   string    `json:"tag_Name"`
     Status    int       `json:"status"`
+}
+
+type Articlelist {
+    Identity string `json:"identity"`
+    ArticleTitle string `json:"articleTitle"`
+    AuthorId int `json:"authorId"`
+    CategoryId int `json:"categoryId"`
+    ArticleContent string `json:"articleContent"`
+    ArticleCover string `json:"articleCover"`
+    IsTop int `json:"isTop"`
+    Status int `json:"status"`
+    Type int `json:"type"`
+    OriginUrl string `json:"originUrl"`
+    ViewTimes int `json:"viewTimes"`
+    ArticleDescription string `json:"articleDescription"`
+    ThumbsUpTimes int `json:"thumbsUpTimes"`
+    ReadingDuration int `json:"readingDuration"`
 
 }

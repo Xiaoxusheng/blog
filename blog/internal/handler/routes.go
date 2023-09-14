@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	article "blog/internal/handler/article"
 	tag "blog/internal/handler/tag"
 	user "blog/internal/handler/user"
 	"blog/internal/svc"
@@ -155,6 +156,27 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodGet,
 					Path:    "/tag/getTagList",
 					Handler: tag.GetTagListHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithSignature(serverCtx.Config.Signature),
+		rest.WithPrefix("/v1"),
+		rest.WithTimeout(3000*time.Millisecond),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.ParseToken, serverCtx.AdminAuth},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/article/addArticle",
+					Handler: article.AddArticleHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/article/updateArticle",
+					Handler: article.UpdateArticleHandler(serverCtx),
 				},
 			}...,
 		),

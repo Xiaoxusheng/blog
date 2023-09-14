@@ -84,8 +84,16 @@ type UpdateTagResp{Respone}
 type DeleteTagReq{Id string `json:"id"`}
 type DeleteTagResp{Respone}
 //标签列表
-type GetTagListReq {offset int `json:"offset"`  Limit int `json:"limit"`}
+type GetTagListReq{offset int `json:"offset"`  Limit int `json:"limit"`}
 type GetTagListResp{Respone Data map [string] []*TagList `json:"data"`}
+
+//article
+//新增文章
+type AddArticleReq{article Articlelist `json:"article"`}
+type AddArticleResp{Respone}
+//修改文章
+type UpdateArticleReq{article Articlelist `json:"article"`}
+type UpdateArticleResp{Respone}
 
 @server(
 	prefix: /v1
@@ -193,4 +201,21 @@ service blog-api {
 	// 条件分页获取标签
 	@handler GetTagList
 	get /tag/getTagList (GetTagListReq) returns (GetTagListResp)
+}
+
+@server(
+	signature: true
+	prefix: /v1
+	group: article
+	timeout: 3s
+	middleware: ParseToken,AdminAuth
+)
+
+service blog-api {
+	// 新增文章
+	@handler AddArticle
+	post /article/addArticle (AddArticleReq) returns (AddArticleResp)
+	// 修改文章
+	@handler UpdateArticle
+	put /article/updateArticle (UpdateArticleReq) returns (UpdateArticleResp)
 }
