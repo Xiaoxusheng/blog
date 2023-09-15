@@ -43,7 +43,6 @@ func (l *UpdateArticleLogic) UpdateArticle(req *types.UpdateArticleReq) (resp *t
 		CategoryId:         req.Article.CategoryId,
 		ArticleContent:     req.Article.ArticleContent,
 		ArticleCover:       req.Article.ArticleCover,
-		IsTop:              req.Article.IsTop,
 		Status:             req.Article.Status,
 		Type:               req.Article.Type,
 		OriginUrl:          req.Article.OriginUrl,

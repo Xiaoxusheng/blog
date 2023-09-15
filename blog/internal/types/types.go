@@ -222,6 +222,50 @@ type UpdateArticleResp struct {
 	Respone
 }
 
+type UpdateArticleTopReq struct {
+	Id    string `json:"id"`
+	IsTop int    `json:"isTop"`
+}
+
+type UpdateArticleTopResp struct {
+	Respone
+}
+
+type DeleteArticleReq struct {
+	Id string `json:"id"`
+}
+
+type DeleteArticleResp struct {
+	Respone
+}
+
+type RecoveArticleReq struct {
+	Id string `json:"id"`
+}
+
+type RecoveArticleResp struct {
+	Respone
+}
+
+type IsPublicArticleReq struct {
+	Id     string `json:"id"`
+	Status int    `json:"status"`
+}
+
+type IsPublicArticleResp struct {
+	Respone
+}
+
+type GetArticleListReq struct {
+	Offset int `json:"offset"`
+	Limit  int `json:"limit"`
+}
+
+type GetArticleListResp struct {
+	Respone
+	Data map[string][]*ArticleList `json:"data"`
+}
+
 type Respone struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
@@ -254,6 +298,23 @@ type TagList struct {
 }
 
 type Articlelist struct {
+	Identity           string `json:"identity"`
+	ArticleTitle       string `json:"articleTitle"`
+	AuthorId           int    `json:"authorId"`
+	CategoryId         int    `json:"categoryId"`
+	ArticleContent     string `json:"articleContent"`
+	ArticleCover       string `json:"articleCover"`
+	IsTop              int    `json:"isTop"`
+	Status             int    `json:"status"`
+	Type               int    `json:"type"`
+	OriginUrl          string `json:"originUrl"`
+	ViewTimes          int    `json:"viewTimes"`
+	ArticleDescription string `json:"articleDescription"`
+	ThumbsUpTimes      int    `json:"thumbsUpTimes"`
+	ReadingDuration    int    `json:"readingDuration"`
+}
+
+type ArticleList struct {
 	Identity           string `json:"identity"`
 	ArticleTitle       string `json:"articleTitle"`
 	AuthorId           int    `json:"authorId"`

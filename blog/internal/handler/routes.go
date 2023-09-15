@@ -178,6 +178,31 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/article/updateArticle",
 					Handler: article.UpdateArticleHandler(serverCtx),
 				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/article/updateArticleTop",
+					Handler: article.UpdateArticleTopHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/article/deleteArticle",
+					Handler: article.DeleteArticleHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/article/recoveArticle",
+					Handler: article.RecoveArticleHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/article/isPublicArticle",
+					Handler: article.IsPublicArticleHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/article/GetArticleList",
+					Handler: article.GetArticleListHandler(serverCtx),
+				},
 			}...,
 		),
 		rest.WithSignature(serverCtx.Config.Signature),

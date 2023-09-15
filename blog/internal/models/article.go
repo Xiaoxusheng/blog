@@ -1,6 +1,7 @@
 package models
 
 import (
+	"blog/internal/types"
 	"errors"
 	"time"
 )
@@ -49,6 +50,9 @@ func InsertArticle(article Article) error {
 
 // 修改文章内容
 func UpdateArticle(article Article) error {
+	if article.Status > 3 || article.Status < 0 || article.IsTop > 2 || article.IsTop < 0 || article.Type < 0 || article.Type > 2 {
+		return errors.New("非法操作！")
+	}
 	_, err := Engine.Where("identity=?", article.Identity).Update(Article{
 		ArticleTitle:       article.ArticleTitle,
 		AuthorId:           article.AuthorId,
@@ -76,6 +80,22 @@ func GetByArticleId(id string) error {
 	ok, err := Engine.Where("identity=?", id).Get(article)
 	if err != nil || !ok {
 		return errors.New("文章不存在！")
+	}
+	return nil
+}
+func GetByArticle(id string) *Article {
+	article := new(Article)
+	ok, err := Engine.Where("identity=?", id).Get(article)
+	if err != nil || !ok {
+		return nil
+	}
+	return article
+}
+
+func GetArticleList(list []*types.ArticleList, limit, offset int) error {
+	err := Engine.Table("blog_article").Desc("thumbs_up_times").OrderBy("created_at", "desc").Limit(limit, offset).Find(list)
+	if err != nil {
+		return errors.New("获取文章列表失败！")
 	}
 	return nil
 }

@@ -48,3 +48,20 @@ type Articlelist {
     ReadingDuration int `json:"readingDuration"`
 
 }
+
+ type ArticleList {
+    Identity           string    `json:"identity"`
+    ArticleTitle       string    `json:"articleTitle"`
+    AuthorId           int       `json:"authorId"`
+    CategoryId         int       `json:"categoryId"`
+    ArticleContent     string    `json:"articleContent"`
+    ArticleCover       string    `json:"articleCover"`
+    IsTop              int       `json:"isTop"`
+    Status             int       `json:"status"`
+    Type               int       `json:"type"`
+    OriginUrl          string    `json:"originUrl"`
+    ViewTimes          int       `json:"viewTimes"`
+    ArticleDescription string    `json:"articleDescription"`
+    ThumbsUpTimes      int       `json:"thumbsUpTimes"`
+    ReadingDuration    int       `json:"readingDuration"`
+}

@@ -95,6 +95,26 @@ type AddArticleResp{Respone}
 type UpdateArticleReq{article Articlelist `json:"article"`}
 type UpdateArticleResp{Respone}
 
+//修改文章置顶
+type UpdateArticleTopReq{Id string `json:"id"` IsTop int `json:"isTop"`}
+type UpdateArticleTopResp{Respone}
+
+//删除文章
+type DeleteArticleReq{Id string `json:"id"`}
+type DeleteArticleResp{Respone}
+
+//恢复文章
+type RecoveArticleReq{ Id string `json:"id"`}
+type RecoveArticleResp{ Respone}
+
+//切换文章私密性
+type IsPublicArticleReq{Id string `json:"id"` Status int `json:"status"`}
+type IsPublicArticleResp{Respone}
+
+//文章列表
+type GetArticleListReq{offset int `json:"offset"`  Limit int `json:"limit"`}
+type GetArticleListResp{Respone Data map [string] []*ArticleList `json:"data"`}
+
 @server(
 	prefix: /v1
 	group: user
@@ -218,4 +238,18 @@ service blog-api {
 	// 修改文章
 	@handler UpdateArticle
 	put /article/updateArticle (UpdateArticleReq) returns (UpdateArticleResp)
+	//修改文章置顶状态
+	@handler UpdateArticleTop
+	put /article/updateArticleTop (UpdateArticleTopReq) returns (UpdateArticleTopResp)
+	//删除文章
+	@handler DeleteArticle
+	get /article/deleteArticle (DeleteArticleReq) returns (DeleteArticleResp)
+	@handler RecoveArticle
+	get /article/recoveArticle (RecoveArticleReq) returns (RecoveArticleResp)
+	//切换文章私密性
+	@handler IsPublicArticle
+	get /article/isPublicArticle (IsPublicArticleReq) returns (IsPublicArticleResp)
+	//获取文章列表
+	@handler GetArticleList
+	get /article/GetArticleList (GetArticleListReq) returns (GetArticleListResp)
 }
