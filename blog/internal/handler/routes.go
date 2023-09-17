@@ -209,4 +209,30 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		rest.WithPrefix("/v1"),
 		rest.WithTimeout(3000*time.Millisecond),
 	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.ParseToken},
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/article/blogArticleList",
+					Handler: article.BlogArticleListHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/article/blogTimeArticleList",
+					Handler: article.BlogTimeArticleListHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/article/getArticleByTag",
+					Handler: article.GetArticleByTagHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithSignature(serverCtx.Config.Signature),
+		rest.WithPrefix("/v1"),
+		rest.WithTimeout(3000*time.Millisecond),
+	)
 }

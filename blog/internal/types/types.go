@@ -266,6 +266,35 @@ type GetArticleListResp struct {
 	Data map[string][]*ArticleList `json:"data"`
 }
 
+type BlogArticleListReq struct {
+	Offset int `json:"offset"`
+	Limit  int `json:"limit"`
+}
+
+type BlogArticleListResp struct {
+	Respone
+	Data map[string][]*ArticleList `json:"data"`
+}
+
+type BlogTimeArticleListReq struct {
+	Offset int `json:"offset"`
+	Limit  int `json:"limit"`
+}
+
+type BlogTimeArticleListResp struct {
+	Respone
+	Data map[string][]*ArticleList `json:"data"`
+}
+
+type GetArticleByTagReq struct {
+	Tag string `json:"tag"`
+}
+
+type GetArticleByTagResp struct {
+	Respone
+	Data map[string][]*ArticleList `json:"data"`
+}
+
 type Respone struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`

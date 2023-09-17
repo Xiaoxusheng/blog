@@ -93,7 +93,24 @@ func GetByArticle(id string) *Article {
 }
 
 func GetArticleList(list []*types.ArticleList, limit, offset int) error {
-	err := Engine.Table("blog_article").Desc("thumbs_up_times").OrderBy("created_at", "desc").Limit(limit, offset).Find(list)
+	err := Engine.Table("blog_article").Where("status=?", 1).Desc("thumbs_up_times").OrderBy("created_at", "desc").Limit(limit, (offset-1)*limit).Find(list)
+	if err != nil {
+		return errors.New("获取文章列表失败！")
+	}
+	return nil
+}
+
+func GetCreateArticleList(list []*types.ArticleList, limit, offset int) error {
+	err := Engine.Table("blog_article").Where("status=?", 1).Desc("created_at").Limit(limit, (offset-1)*limit).Find(list)
+	if err != nil {
+		return errors.New("获取文章列表失败！")
+	}
+	return nil
+
+}
+
+func GetByTagArticleList(list []*types.ArticleList, tag string) error {
+	err := Engine.Table("blog_article").Where("status=? and tag=?", 1, tag).Desc("created_at").Find(list)
 	if err != nil {
 		return errors.New("获取文章列表失败！")
 	}
