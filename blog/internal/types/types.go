@@ -295,6 +295,33 @@ type GetArticleByTagResp struct {
 	Data map[string][]*ArticleList `json:"data"`
 }
 
+type GetArticleByIdReq struct {
+	Id string `json:"id"`
+}
+
+type GetArticleByIdResp struct {
+	Respone
+	Data map[string][]*ArticleList `json:"data"`
+}
+
+type GetRecommendArticleByIdReq struct {
+	Id string `json:"id"`
+}
+
+type GetRecommendArticleByIdResp struct {
+	Respone
+	Data map[string][]*ArticleList `json:"data"`
+}
+
+type GetArticleListByContentReq struct {
+	Content string `json:"content"`
+}
+
+type GetArticleListByContentResp struct {
+	Respone
+	Data map[string]ArticleList `json:"data"`
+}
+
 type Respone struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`

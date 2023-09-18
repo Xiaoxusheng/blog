@@ -116,3 +116,50 @@ func GetByTagArticleList(list []*types.ArticleList, tag string) error {
 	}
 	return nil
 }
+
+func GetId(id string) error {
+	article := new(Article)
+	ok, err := Engine.Where("category_id=?", id).Get(article)
+	if err != nil || !ok {
+		return errors.New("id不存在！")
+	}
+	return nil
+}
+
+func GetByIdArticleList(id string, list []*types.ArticleList) error {
+	err := Engine.Table("blog_article").Where("status=? and category_id=?", 1, id).Desc("created_at").Find(list)
+	if err != nil {
+		return errors.New("获取文章列表失败！")
+	}
+	return nil
+}
+
+func GetRecommendArticleById(id string, list []*types.ArticleList) error {
+	err := Engine.Table("blog_article").Where("status=?  ", 1).Desc("created_at").Find(list)
+	if err != nil {
+		return errors.New("获取文章列表失败！")
+	}
+	for i := 0; i < len(list); i++ {
+		if list[i].Identity == id && i >= 1 && i < len(list)-1 {
+			list[0] = list[i-1]
+			list[1] = list[i+1]
+		} else if list[i].Identity == id && i < 1 {
+			list[0] = nil
+			list[1] = list[i+1]
+		} else if list[i].Identity == id && i >= 1 && i == len(list)-1 {
+			list[0] = list[i-1]
+			list[1] = nil
+		}
+	}
+
+	return nil
+}
+
+func GetByContent(content string) (*Article, error) {
+	article := new(Article)
+	ok, err := Engine.Where("content like %=? %", content).Get(article)
+	if err != nil || !ok {
+		return nil, errors.New("内容不存在！")
+	}
+	return article, nil
+}
