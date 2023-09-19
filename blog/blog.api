@@ -140,7 +140,8 @@ type GetArticleListByContentReq{Content string `json:"content"`}
 type GetArticleListByContentResp{Respone Data map [string] ArticleList `json:"data"`}
 
 //热搜文章
-type GetHotArticleReq{}
+type GetHotArticleReq {
+}
 type GetHotArticleResp{Respone Data map [string] ArticleList `json:"data"`}
 
 //点赞
@@ -151,9 +152,17 @@ type likeArticleResp{Respone}
 type UnlikeArticleReq{Id string `json:"id"`}
 type UnlikeArticleResp{Respone}
 
+//增加时长
+type AddReadingDurationReq{Id string `json:"id"` Duration float64 `json:"duration"`}
+type AddReadingDurationResp{Respone}
+
+//发表评论
+type AddCommentReq{ Id string `json:"id"`Type int `json:"type"` ForId string `json:"forId"` FromId string `json:"fromId"` FromName string `json:"fromName"` FromAvatar string `json:"fromAvatar"` Content string `json:"content"`Ip string `json:"ip"`}
+type AddCommentResp{Respone}
+
 @server(
 	prefix: /v1
-	group: user
+	group: userl
 	timeout: 3s
 )
 
@@ -326,4 +335,20 @@ service blog-api {
 	//取消点赞
 	@handler UnlikeArticle
 	get /article/unlike (UnlikeArticleReq) returns (UnlikeArticleResp)
+	//    增加阅读时长
+	@handler AddReadingDuration
+	get /article/addReadingDuration (AddReadingDurationReq) returns (AddReadingDurationResp)
+}
+
+@server(
+	signature: true
+	prefix: /v1
+	group: comment
+	timeout: 3s
+	middleware: ParseToken
+)
+
+service blog-api {
+	@handler AddComment
+	get /comment/addComment (AddCommentReq) returns (AddCommentResp)
 }

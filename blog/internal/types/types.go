@@ -346,6 +346,30 @@ type UnlikeArticleResp struct {
 	Respone
 }
 
+type AddReadingDurationReq struct {
+	Id       string  `json:"id"`
+	Duration float64 `json:"duration"`
+}
+
+type AddReadingDurationResp struct {
+	Respone
+}
+
+type AddCommentReq struct {
+	Id         string `json:"id"`
+	Type       int    `json:"type"`
+	ForId      string `json:"forId"`
+	FromId     string `json:"fromId"`
+	FromName   string `json:"fromName"`
+	FromAvatar string `json:"fromAvatar"`
+	Content    string `json:"content"`
+	Ip         string `json:"ip"`
+}
+
+type AddCommentResp struct {
+	Respone
+}
+
 type Respone struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`

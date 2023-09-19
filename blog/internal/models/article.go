@@ -20,7 +20,7 @@ type Article struct {
 	ViewTimes          int       `json:"viewTimes"`
 	ArticleDescription string    `json:"articleDescription"`
 	ThumbsUpTimes      int       `json:"thumbsUpTimes"`
-	ReadingDuration    int       `json:"readingDuration"`
+	ReadingDuration    float64   `json:"readingDuration"`
 	CreatedAt          time.Time ` xorm:"created " json:"createdAt" `
 	UpdatedAt          time.Time ` xorm:"updated" json:"updatedAt" `
 }
@@ -187,10 +187,19 @@ func UpdateLike(id string) error {
 func UpdateUnLike(id string) error {
 	article := new(Article)
 	article.ThumbsUpTimes -= 1
-
-	_, err := Engine.Update(article)
+	_, err := Engine.Where("identity=?", id).Update(article)
 	if err != nil {
 		return errors.New("点赞失败！")
+	}
+	return nil
+}
+
+func UpdateTime(id string, time float64) error {
+	article := new(Article)
+	article.ReadingDuration += time
+	_, err := Engine.Where("identity=?", id).Update(article)
+	if err != nil {
+		return errors.New("增加时长失败！")
 	}
 	return nil
 }

@@ -6,8 +6,10 @@ import (
 	"time"
 
 	article "blog/internal/handler/article"
+	comment "blog/internal/handler/comment"
 	tag "blog/internal/handler/tag"
 	user "blog/internal/handler/user"
+	userl "blog/internal/handler/userl"
 	"blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -19,17 +21,17 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			{
 				Method:  http.MethodPost,
 				Path:    "/user/login",
-				Handler: user.UserLoginHandler(serverCtx),
+				Handler: userl.UserLoginHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
 				Path:    "/user/rigister",
-				Handler: user.UserRigisterHandler(serverCtx),
+				Handler: userl.UserRigisterHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
 				Path:    "/user/adminRigister",
-				Handler: user.AdminRigisterHandler(serverCtx),
+				Handler: userl.AdminRigisterHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/v1"),
@@ -258,6 +260,27 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodGet,
 					Path:    "/article/unlike",
 					Handler: article.UnlikeArticleHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/article/addReadingDuration",
+					Handler: article.AddReadingDurationHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithSignature(serverCtx.Config.Signature),
+		rest.WithPrefix("/v1"),
+		rest.WithTimeout(3000*time.Millisecond),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.ParseToken},
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/comment/addComment",
+					Handler: comment.AddCommentHandler(serverCtx),
 				},
 			}...,
 		),
