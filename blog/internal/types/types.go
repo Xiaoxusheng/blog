@@ -322,6 +322,30 @@ type GetArticleListByContentResp struct {
 	Data map[string]ArticleList `json:"data"`
 }
 
+type GetHotArticleReq struct {
+}
+
+type GetHotArticleResp struct {
+	Respone
+	Data map[string]ArticleList `json:"data"`
+}
+
+type LikeArticleReq struct {
+	Id string `json:"id"`
+}
+
+type LikeArticleResp struct {
+	Respone
+}
+
+type UnlikeArticleReq struct {
+	Id string `json:"id"`
+}
+
+type UnlikeArticleResp struct {
+	Respone
+}
+
 type Respone struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`

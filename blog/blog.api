@@ -139,6 +139,18 @@ type GetRecommendArticleByIdResp{Respone Data map [string] []*ArticleList `json:
 type GetArticleListByContentReq{Content string `json:"content"`}
 type GetArticleListByContentResp{Respone Data map [string] ArticleList `json:"data"`}
 
+//热搜文章
+type GetHotArticleReq{}
+type GetHotArticleResp{Respone Data map [string] ArticleList `json:"data"`}
+
+//点赞
+type likeArticleReq{Id string `json:"id"`}
+type likeArticleResp{Respone}
+
+//取消点赞
+type UnlikeArticleReq{Id string `json:"id"`}
+type UnlikeArticleResp{Respone}
+
 @server(
 	prefix: /v1
 	group: user
@@ -302,6 +314,16 @@ service blog-api {
 	//获取推荐文章
 	@handler GetRecommendArticleById
 	get /article/getRecommendArticleById (GetRecommendArticleByIdReq) returns (GetRecommendArticleByIdResp)
+	//根据内容搜索文章
 	@handler GetArticleListByContent
 	get /article/getArticleListByContent (GetArticleListByContentReq) returns (GetArticleListByContentResp)
+	//    热门文章
+	@handler GetHotArticle
+	get /article/getHotArticle (GetHotArticleReq) returns (GetHotArticleResp)
+	//文章点赞
+	@handler likeArticle
+	get /article/like (likeArticleReq) returns (likeArticleResp)
+	//取消点赞
+	@handler UnlikeArticle
+	get /article/unlike (UnlikeArticleReq) returns (UnlikeArticleResp)
 }

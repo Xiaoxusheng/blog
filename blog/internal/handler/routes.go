@@ -244,6 +244,21 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/article/getArticleListByContent",
 					Handler: article.GetArticleListByContentHandler(serverCtx),
 				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/article/getHotArticle",
+					Handler: article.GetHotArticleHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/article/like",
+					Handler: article.LikeArticleHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/article/unlike",
+					Handler: article.UnlikeArticleHandler(serverCtx),
+				},
 			}...,
 		),
 		rest.WithSignature(serverCtx.Config.Signature),

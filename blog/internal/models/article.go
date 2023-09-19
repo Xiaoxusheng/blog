@@ -163,3 +163,34 @@ func GetByContent(content string) (*Article, error) {
 	}
 	return article, nil
 }
+
+func GetHotArticle() (*Article, error) {
+	article := new(Article)
+	ok, err := Engine.Table("blog_article").Select("MAX(thumbs_up_times)").Get(article)
+	if err != nil || !ok {
+		return nil, errors.New("热搜不存在！")
+	}
+	return article, nil
+}
+
+func UpdateLike(id string) error {
+	article := new(Article)
+	article.ThumbsUpTimes += 1
+
+	_, err := Engine.Update(article)
+	if err != nil {
+		return errors.New("点赞失败！")
+	}
+	return nil
+}
+
+func UpdateUnLike(id string) error {
+	article := new(Article)
+	article.ThumbsUpTimes -= 1
+
+	_, err := Engine.Update(article)
+	if err != nil {
+		return errors.New("点赞失败！")
+	}
+	return nil
+}
