@@ -370,6 +370,73 @@ type AddCommentResp struct {
 	Respone
 }
 
+type DeleteCommentReq struct {
+	Id string `json:"id"`
+}
+
+type DeleteCommentResp struct {
+	Respone
+}
+
+type ApplyCommentReq struct {
+	Id         string `json:"id"`
+	Type       int    `json:"type"`
+	ForId      string `json:"forId"`
+	FromId     string `json:"fromId"`
+	FromName   string `json:"fromName"`
+	FromAvatar string `json:"fromAvatar"`
+	Content    string `json:"content"`
+	Ip         string `json:"ip"`
+	ToId       string `json:"toId"`
+	ToName     string `json:"toName"`
+	ToAvatar   string `json:"toAvatar"`
+}
+
+type ApplyCommentResp struct {
+	Respone
+}
+
+type CategoryReq struct {
+	CategoryName string `json:"categoryName"`
+}
+
+type CategoryResp struct {
+	Respone
+}
+
+type UpdatecategoryReq struct {
+	Id           string `json:"id"`
+	CategoryName string `json:"categoryName"`
+}
+
+type UpdatecategoryResp struct {
+	Respone
+}
+
+type DeleteCategoryReq struct {
+	Id string `json:"id"`
+}
+
+type DeleteCategoryResp struct {
+	Respone
+}
+
+type GetCategoryListReq struct {
+}
+
+type GetCategoryListResp struct {
+	Respone
+	Data map[string][]*CategoryList `json:"data"`
+}
+
+type GetCategoryDictionaryReq struct {
+}
+
+type GetCategoryDictionaryResp struct {
+	Respone
+	Data map[string]string `json:"data"`
+}
+
 type Respone struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
@@ -433,4 +500,10 @@ type ArticleList struct {
 	ArticleDescription string `json:"articleDescription"`
 	ThumbsUpTimes      int    `json:"thumbsUpTimes"`
 	ReadingDuration    int    `json:"readingDuration"`
+}
+
+type CategoryList struct {
+	Identity     string `json:"identity"`
+	Status       int    `json:"status"`
+	CategoryName string `json:"categoryName"`
 }

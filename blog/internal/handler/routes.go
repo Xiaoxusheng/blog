@@ -6,6 +6,7 @@ import (
 	"time"
 
 	article "blog/internal/handler/article"
+	category "blog/internal/handler/category"
 	comment "blog/internal/handler/comment"
 	tag "blog/internal/handler/tag"
 	user "blog/internal/handler/user"
@@ -281,6 +282,52 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodGet,
 					Path:    "/comment/addComment",
 					Handler: comment.AddCommentHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/comment/DeleteComment",
+					Handler: comment.DeleteCommentHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/comment/applyComment",
+					Handler: comment.ApplyCommentHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithSignature(serverCtx.Config.Signature),
+		rest.WithPrefix("/v1"),
+		rest.WithTimeout(3000*time.Millisecond),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.ParseToken},
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/category/addCategory",
+					Handler: category.AddCategoryHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/category/updateCategory",
+					Handler: category.UpdateCategoryHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/category/deleteCategory",
+					Handler: category.DeleteCategoryHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/category/getCategoryList",
+					Handler: category.GetCategoryListHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/category/getCategoryDictionary",
+					Handler: category.GetCategoryDictionaryHandler(serverCtx),
 				},
 			}...,
 		),

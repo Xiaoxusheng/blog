@@ -20,12 +20,18 @@ func (m *AdminAuthMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		user, ok := models.GetById(id)
 		if !ok {
 			w.WriteHeader(http.StatusBadRequest)
-			w.Write([]byte("用户不存在!"))
+			_, err := w.Write([]byte("用户不存在!"))
+			if err != nil {
+				return
+			}
 			return
 		}
 		if user.Role != 9999 && user.Role != 1 {
 			w.WriteHeader(http.StatusBadRequest)
-			w.Write([]byte("您没有权限!"))
+			_, err := w.Write([]byte("您没有权限!"))
+			if err != nil {
+				return
+			}
 			return
 		}
 		fmt.Println(id, user.Role)

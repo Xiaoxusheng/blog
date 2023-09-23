@@ -160,6 +160,34 @@ type AddReadingDurationResp{Respone}
 type AddCommentReq{ Id string `json:"id"`Type int `json:"type"` ForId string `json:"forId"` FromId string `json:"fromId"` FromName string `json:"fromName"` FromAvatar string `json:"fromAvatar"` Content string `json:"content"`Ip string `json:"ip"`}
 type AddCommentResp{Respone}
 
+//删除评论
+type DeleteCommentReq{Id string `json:"id"`}
+type DeleteCommentResp{Respone}
+
+//回复评论
+type applyCommentReq{Id string `json:"id"` Type int `json:"type"` ForId string `json:"forId"` FromId string `json:"fromId"` FromName string `json:"fromName"` FromAvatar string `json:"fromAvatar"` Content string `json:"content"` Ip string `json:"ip"` ToId string `json:"toId"` ToName string `json:"toName"`  ToAvatar string `json:"toAvatar"`}
+type applyCommentResp{Respone}
+
+//分类
+type CategoryReq{CategoryName string `json:"categoryName"`}
+type CategoryResp{Respone}
+
+//更新分类
+type UpdatecategoryReq{id string `json:"id"` CategoryName string `json:"categoryName"`}
+type UpdatecategoryResp{Respone}
+
+//删除分分类
+type DeleteCategoryReq{Id string `json:"id"`}
+type DeleteCategoryResp{Respone}
+
+//分类列表
+type GetCategoryListReq{}
+type GetCategoryListResp{Respone Data map[string][]*CategoryList `json:"data"`}
+
+//
+type GetCategoryDictionaryReq{}
+type GetCategoryDictionaryResp{Respone Data map[string]string `json:"data"`}
+
 @server(
 	prefix: /v1
 	group: userl
@@ -351,4 +379,28 @@ service blog-api {
 service blog-api {
 	@handler AddComment
 	get /comment/addComment (AddCommentReq) returns (AddCommentResp)
+	@handler DeleteComment
+	get /comment/DeleteComment (DeleteCommentReq) returns (DeleteCommentResp)
+	@handler ApplyComment
+	get /comment/applyComment (applyCommentReq) returns (applyCommentResp)
+}
+
+@server(
+	signature: true
+	prefix: /v1
+	group: category
+	timeout: 3s
+	middleware: ParseToken
+)
+service blog-api {
+	@handler AddCategory
+	get /category/addCategory (CategoryReq) returns (CategoryResp)
+	@handler UpdateCategory
+	get /category/updateCategory (UpdatecategoryReq) returns (UpdatecategoryResp)
+	@handler DeleteCategory
+	get /category/deleteCategory (DeleteCategoryReq) returns (DeleteCategoryResp)
+	@handler GetCategoryList
+	get /category/getCategoryList (GetCategoryListReq) returns (GetCategoryListResp)
+	@handler GetCategoryDictionary
+	get /category/getCategoryDictionary (GetCategoryDictionaryReq) returns (GetCategoryDictionaryResp)
 }

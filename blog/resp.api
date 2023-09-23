@@ -65,3 +65,9 @@ type Articlelist {
     ThumbsUpTimes      int       `json:"thumbsUpTimes"`
     ReadingDuration    int       `json:"readingDuration"`
 }
+
+type CategoryList  {
+    Identity     string    `json:"identity"`
+    Status       int       `json:"status"`
+    CategoryName string    `json:"categoryName"`
+}
